@@ -1,0 +1,7 @@
+# Ignore everything
+*
+
+!/ConsoleTaskManager/
+!/ConsoleTaskManager/Program.cs
+!/ConsoleTaskManager/ConsoleTaskManager.csproj
+!.gitignore
