@@ -6,9 +6,9 @@ class Task
     public string Name;
     public string Description;
     public DateTime CreationDate { get; private set; }
-    public DateTime DeadLine;
+    public DateOnly DeadLine;
 
-    public Task(string name, DateTime deadLine, string description = "")
+    public Task(string name, DateOnly deadLine, string description = "")
     {
         Name = name;
         Description = description;
@@ -41,5 +41,31 @@ class TaskSection
     {
         Name = name;
         Section = tasks;
+    }
+}
+class ConsoleManager
+{
+    static void Main()
+    {
+
+    }
+    static Task AddTask()
+    {
+        Console.Write("Введите имя задачи: ");
+        string name = Console.ReadLine();
+        Console.Write("Введите описание (если не описания нет, то нажмите Enter): ");
+        string description = Console.ReadLine();
+
+        Console.WriteLine("Введите дедлайн: ");
+        Console.Write(" Введите год: ");
+        int year = int.Parse(Console.ReadLine());
+        Console.Write(" Введите номер месяца: ");
+        int month = int.Parse(Console.ReadLine());
+        Console.Write(" Введите день: ");
+        int day = int.Parse(Console.ReadLine());
+
+        var date = new DateOnly(year, month, day);
+
+        return new Task(name, date, description);
     }
 }
