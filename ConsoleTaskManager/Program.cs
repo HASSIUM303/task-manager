@@ -1,8 +1,10 @@
 ﻿using System;
 using System.IO;
+using System.Text.Json;
 
 class Task
 {
+    public bool IsDone;
     public string Name;
     public string Description;
     public DateTime CreationDate { get; private set; }
@@ -10,6 +12,7 @@ class Task
 
     public Task(string name, DateOnly deadLine, string description = "")
     {
+        IsDone = false;
         Name = name;
         Description = description;
         CreationDate = DateTime.Now;
@@ -18,6 +21,7 @@ class Task
 
     public override string ToString()
     {
+        //TODO: добавить отображение для IsDone
         string str = "";
         str += "Имя задачи: " + Name + "\n";
         str += "Описание:\n" + Description + "\n";
@@ -45,8 +49,11 @@ class TaskSection
 }
 class ConsoleManager
 {
+    static private string path = "DataBase.json";
     static void Main()
     {
+        Console.Title = "Task Manager";
+
 
     }
     static Task AddTask()
