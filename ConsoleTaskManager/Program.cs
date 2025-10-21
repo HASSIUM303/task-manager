@@ -1,6 +1,7 @@
 ﻿using System;
 using System.IO;
 using System.Text.Json;
+using System.Text.Json.Serialization;
 
 class Task
 {
@@ -37,9 +38,8 @@ class Task
 }
 class Section
 {
-    public string Name;
-    public int index;
-    public List<Task> section = new List<Task>();
+    public string Name { get; set; }
+    public List<Task> section { get; set; } = new List<Task>();
 
     public Section(string name, params Task[] tasks)
     {
@@ -47,10 +47,12 @@ class Section
         for (int i = 0; i < tasks.Length; i++)
             section.Add(tasks[i]);
     }
-    public Section(string name, List<Task> tasks)
+
+    [JsonConstructor]
+    public Section(string name, List<Task> section)
     {
         Name = name;
-        section = tasks;
+        this.section = section;
     }
     public void ShowAllTasks()
     {
@@ -61,13 +63,19 @@ class Section
 class ConsoleManager
 {
     static private string path = "DataBase.json";
+    static private JsonSerializerOptions jsonOptions = new JsonSerializerOptions
+    {
+        WriteIndented = true,
+        IncludeFields = true,
+        Encoder = System.Text.Encodings.Web.JavaScriptEncoder.UnsafeRelaxedJsonEscaping
+    };
     static private int CurrentSection = 0;
     static List<Section> sections = new List<Section>() { new Section("Main") };
     static void Main()
     {
         Console.Title = "Task Manager";
-        Section tasks = new Section("Main");
-
+        //Section tasks = new Section("Main");
+        SetDataFromDataBase();
         while (true)
         {
             Console.WriteLine("Добавить задачу в текущий раздел - 1");
@@ -75,6 +83,8 @@ class ConsoleManager
             Console.WriteLine("Создать новый раздел - 3");
             Console.WriteLine("Удалить раздел - 4");
             Console.WriteLine("Переключить раздел - 5");
+            Console.WriteLine("Сохранить изменения в базы данных - 6");
+            Console.WriteLine("Получить данные из базы данных - 7");
 
             Console.Write("Выбор опции: ");
             string option = Console.ReadLine();
@@ -88,14 +98,8 @@ class ConsoleManager
                     ", добавлена задача: " + task.GetAllInformation());
 
 
-                    var options = new JsonSerializerOptions
-                    {
-                        WriteIndented = true,
-                        IncludeFields = true
-                    };
-
-                    string json = JsonSerializer.Serialize(tasks.section, options);
-                    File.WriteAllText(path, json);
+                    //string json = JsonSerializer.Serialize(sections[CurrentSection].section, jsonOptions);
+                    //File.WriteAllText(path, json);
                     break;
                 case "2":
                     sections[CurrentSection].ShowAllTasks();
@@ -130,6 +134,13 @@ class ConsoleManager
 
                     Console.WriteLine("Вы выбрали раздел: " + sections[CurrentSection].Name);
                     break;
+                case "6":
+                    string json = JsonSerializer.Serialize(sections, jsonOptions);
+                    File.WriteAllText(path, json);
+                    break;
+                case "7":
+                    SetDataFromDataBase();
+                    break;
                 default:
                     Console.WriteLine("Вы ввели неверную команду!");
                     break;
@@ -139,6 +150,12 @@ class ConsoleManager
             Console.Write("\nНажмите любую клавишу для выхода...");
             Console.ReadKey();
         }
+    }
+    static void SetDataFromDataBase()
+    {
+        string json = File.ReadAllText(path);
+        if (json != null && json != "")
+            sections = JsonSerializer.Deserialize<List<Section>>(json, jsonOptions);
     }
     static void ShowSections()
     {
