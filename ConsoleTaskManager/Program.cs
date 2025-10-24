@@ -74,8 +74,8 @@ class ConsoleManager
     static void Main()
     {
         Console.Title = "Task Manager";
-        //Section tasks = new Section("Main");
         SetDataFromDataBase();
+        
         while (true)
         {
             Console.WriteLine("Добавить задачу в текущий раздел - 1");
@@ -96,10 +96,6 @@ class ConsoleManager
                     sections[CurrentSection].section.Add(task);
                     Console.WriteLine("В раздел " + sections[CurrentSection].Name +
                     ", добавлена задача: " + task.GetAllInformation());
-
-
-                    //string json = JsonSerializer.Serialize(sections[CurrentSection].section, jsonOptions);
-                    //File.WriteAllText(path, json);
                     break;
                 case "2":
                     sections[CurrentSection].ShowAllTasks();
