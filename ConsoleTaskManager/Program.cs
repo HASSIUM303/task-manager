@@ -73,18 +73,19 @@ class ConsoleManager
     static List<Section> sections = new List<Section>() { new Section("Main") };
     static void Main()
     {
-        Console.Title = "Task Manager";
         SetDataFromDataBase();
-        
+
         while (true)
         {
-            Console.WriteLine("Добавить задачу в текущий раздел - 1");
-            Console.WriteLine("Удалить задачу в текущем разделе - 2");
-            Console.WriteLine("Создать новый раздел - 3");
-            Console.WriteLine("Удалить раздел - 4");
-            Console.WriteLine("Переключить раздел - 5");
-            Console.WriteLine("Сохранить изменения в базы данных - 6");
-            Console.WriteLine("Получить данные из базы данных - 7");
+            Console.Title = "Task Manager - " + sections[CurrentSection].Name;
+
+            Console.WriteLine("1 - Добавить задачу в текущий раздел");
+            Console.WriteLine("2 - Удалить задачу в текущем разделе");
+            Console.WriteLine("3 - Создать новый раздел");
+            Console.WriteLine("4 - Удалить раздел");
+            Console.WriteLine("5 - Переключить раздел");
+            Console.WriteLine("6 - Сохранить изменения в базы данных");
+            Console.WriteLine("7 - Получить данные из базы данных");
 
             Console.Write("Выбор опции: ");
             string option = Console.ReadLine();
@@ -100,13 +101,13 @@ class ConsoleManager
                 case "2":
                     sections[CurrentSection].ShowAllTasks();
 
-                    Console.Write("Выберите индекс удаляемой задачи: ");
+                    Console.Write(" Выберите индекс удаляемой задачи: ");
                     int index = int.Parse(Console.ReadLine());
 
                     sections[CurrentSection].section.RemoveAt(index);
                     break;
                 case "3":
-                    Console.Write("Введите имя нового раздела: ");
+                    Console.Write(" Введите имя нового раздела: ");
                     string name = Console.ReadLine();
 
                     sections.Add(new Section(name));
@@ -115,7 +116,7 @@ class ConsoleManager
                 case "4":
                     ShowSections();
                     CurrentSection = int.Parse(Console.ReadLine());
-                    Console.Write("Выберите раздел для удаления (все задачи переместятся раздел main): ");
+                    Console.Write(" Выберите раздел для удаления (все задачи переместятся раздел main): ");
 
                     for (int i = 0; i < sections[CurrentSection].section.Count; i++)
                         sections[0].section.Add(sections[CurrentSection].section[i]);
@@ -126,7 +127,7 @@ class ConsoleManager
                 case "5":
                     ShowSections();
                     CurrentSection = int.Parse(Console.ReadLine());
-                    Console.Write("Выберите раздел в который хотите перейти: ");
+                    Console.Write(" Выберите раздел в который хотите перейти: ");
 
                     Console.WriteLine("Вы выбрали раздел: " + sections[CurrentSection].Name);
                     break;
@@ -142,9 +143,6 @@ class ConsoleManager
                     break;
 
             }
-
-            Console.Write("\nНажмите любую клавишу для выхода...");
-            Console.ReadKey();
         }
     }
     static void SetDataFromDataBase()
@@ -155,25 +153,25 @@ class ConsoleManager
     }
     static void ShowSections()
     {
-        Console.WriteLine("Все разделы: ");
+        Console.WriteLine(" Все разделы: ");
         for (int i = 0; i < sections.Count; i++)
         {
-            Console.WriteLine(i + 1 + sections[i].Name);
+            Console.WriteLine("  " + i + 1 + sections[i].Name);
         }
     }
     static Task CreateTask()
     {
-        Console.Write("Введите имя задачи: ");
+        Console.Write(" Введите имя задачи: ");
         string name = Console.ReadLine();
-        Console.Write("Введите описание (если не описания нет, то нажмите Enter): ");
+        Console.Write(" Введите описание (если не описания нет, то нажмите Enter): ");
         string description = Console.ReadLine();
 
-        Console.WriteLine("Введите дедлайн: ");
-        Console.Write(" Введите год: ");
+        Console.WriteLine(" Введите дедлайн: ");
+        Console.Write("  Введите год: ");
         int year = int.Parse(Console.ReadLine());
-        Console.Write(" Введите номер месяца: ");
+        Console.Write("  Введите номер месяца: ");
         int month = int.Parse(Console.ReadLine());
-        Console.Write(" Введите день: ");
+        Console.Write("  Введите день: ");
         int day = int.Parse(Console.ReadLine());
 
         var date = new DateOnly(year, month, day);
