@@ -131,7 +131,7 @@ class ConsoleManager
                     string userSection = Console.ReadLine();
 
                     if (int.TryParse(userSection, out CurrentSection) && CurrentSection >= 0)
-                        Console.WriteLine("Вы выбрали раздел: " + sections[CurrentSection].Name);
+                        Console.WriteLine("Вы выбрали раздел: " + sections[--CurrentSection].Name);
                     else
                         Console.WriteLine("Вы ввели некорректное, либо отрицательное значение");
 
