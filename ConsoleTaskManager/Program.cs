@@ -126,10 +126,15 @@ class ConsoleManager
                     break;
                 case "5":
                     ShowSections();
-                    CurrentSection = int.Parse(Console.ReadLine());
-                    Console.Write(" Выберите раздел в который хотите перейти: ");
 
-                    Console.WriteLine("Вы выбрали раздел: " + sections[CurrentSection].Name);
+                    Console.Write(" Выберите раздел в который хотите перейти: ");
+                    string userSection = Console.ReadLine();
+
+                    if (int.TryParse(userSection, out CurrentSection) && CurrentSection >= 0)
+                        Console.WriteLine("Вы выбрали раздел: " + sections[CurrentSection].Name);
+                    else
+                        Console.WriteLine("Вы ввели некорректное, либо отрицательное значение");
+
                     break;
                 case "6":
                     string json = JsonSerializer.Serialize(sections, jsonOptions);
@@ -156,7 +161,7 @@ class ConsoleManager
         Console.WriteLine(" Все разделы: ");
         for (int i = 0; i < sections.Count; i++)
         {
-            Console.WriteLine("  " + i + 1 + sections[i].Name);
+            Console.WriteLine("  " + (i + 1) + " - " + sections[i].Name);
         }
     }
     static Task CreateTask()
