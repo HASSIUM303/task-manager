@@ -114,27 +114,37 @@ class ConsoleManager
                     Console.WriteLine("Вы добавили новый раздел с названием \"" + name + "\"");
                     break;
                 case "4":
-                    ShowSections();
-                    CurrentSection = int.Parse(Console.ReadLine());
-                    Console.Write(" Выберите раздел для удаления (все задачи переместятся раздел main): ");
+                    {
+                        ShowSections();
 
-                    for (int i = 0; i < sections[CurrentSection].section.Count; i++)
-                        sections[0].section.Add(sections[CurrentSection].section[i]);
+                        Console.Write(" Выберите раздел для удаления (все задачи переместятся раздел main): ");
+                        string userSection = Console.ReadLine();
 
-                    sections.RemoveAt(CurrentSection);
-                    Console.WriteLine("Удаление прошло успешно");
+                        if (int.TryParse(userSection, out CurrentSection) && --CurrentSection >= 0)
+                        {
+                            for (int i = 0; i < sections[CurrentSection].section.Count; i++)
+                                sections[0].section.Add(sections[CurrentSection].section[i]);
+
+                            sections.RemoveAt(CurrentSection);
+                            CurrentSection = 0;
+                            Console.WriteLine("Удаление прошло успешно");
+                        }
+                        else
+                            Console.WriteLine("Вы ввели некорректное, либо отрицательное значение");
+                    }
                     break;
                 case "5":
-                    ShowSections();
+                    {
+                        ShowSections();
 
-                    Console.Write(" Выберите раздел в который хотите перейти: ");
-                    string userSection = Console.ReadLine();
+                        Console.Write(" Выберите раздел в который хотите перейти: ");
+                        string userSection = Console.ReadLine();
 
-                    if (int.TryParse(userSection, out CurrentSection) && CurrentSection >= 0)
-                        Console.WriteLine("Вы выбрали раздел: " + sections[--CurrentSection].Name);
-                    else
-                        Console.WriteLine("Вы ввели некорректное, либо отрицательное значение");
-
+                        if (int.TryParse(userSection, out CurrentSection) && --CurrentSection >= 0)
+                            Console.WriteLine("Вы выбрали раздел: " + sections[CurrentSection].Name);
+                        else
+                            Console.WriteLine("Вы ввели некорректное, либо отрицательное значение");
+                    }
                     break;
                 case "6":
                     string json = JsonSerializer.Serialize(sections, jsonOptions);
