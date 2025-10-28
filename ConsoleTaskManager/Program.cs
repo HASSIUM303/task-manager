@@ -59,6 +59,10 @@ class Section
         for (int i = 0; i < section.Count; i++) Console.WriteLine(i + " - " + section[i]);
     }
 }
+
+
+delegate void ToGraphics();
+
 class ConsoleManager
 {
     static private string path = "DataBase.json";
@@ -158,9 +162,17 @@ class ConsoleManager
                     Console.WriteLine("Вы ввели неверную команду!");
                     break;
             }
-            
+
             Console.Clear();
         }
+    }
+    static void SetColor(ToGraphics meth, ConsoleColor color = ConsoleColor.Red)
+    {
+        ConsoleColor defaultColor = Console.ForegroundColor;
+
+        Console.ForegroundColor = color;
+        meth();
+        Console.ForegroundColor = defaultColor;
     }
     static void GetDataFromDataBase()
     {
