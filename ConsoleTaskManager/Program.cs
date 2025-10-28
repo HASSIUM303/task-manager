@@ -157,8 +157,9 @@ class ConsoleManager
                 default:
                     Console.WriteLine("Вы ввели неверную команду!");
                     break;
-
             }
+            
+            Console.Clear();
         }
     }
     static void GetDataFromDataBase()
