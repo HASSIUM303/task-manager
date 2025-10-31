@@ -119,14 +119,14 @@ class ConsoleManager
 
                         Console.Write("Выберите индекс удаляемой задачи: ");
                         int index = int.Parse(Console.ReadLine());
-                        var task = sections[CurrentSection].section[index];
+                        string taskName = sections[CurrentSection].section[index].Name;
 
                         sections[CurrentSection].section.RemoveAt(index);
 
-                        if (!sections[CurrentSection].section.Contains(task))
+                        if (sections[CurrentSection].section[index].Name != taskName)
                             StylizeMessage(() =>
                             {
-                                Console.WriteLine($"Задача {task.Name} успешно удалена из текущего раздела");
+                                Console.WriteLine($"Задача {taskName} успешно удалена из текущего раздела");
                                 Console.ReadKey();
                             },
                             ConsoleColor.Green, false);
@@ -156,15 +156,28 @@ class ConsoleManager
 
                         if (int.TryParse(userSection, out CurrentSection) && --CurrentSection >= 0)
                         {
+                            string sectionName = sections[CurrentSection].Name;
+
                             for (int i = 0; i < sections[CurrentSection].section.Count; i++)
                                 sections[0].section.Add(sections[CurrentSection].section[i]);
 
                             sections.RemoveAt(CurrentSection);
                             CurrentSection = 0;
-                            Console.WriteLine("Удаление прошло успешно");
+
+                            StylizeMessage(() =>
+                            {
+                                Console.Write($"Вы успешно удалили раздел {sectionName}");
+                                Console.ReadKey();
+                            },
+                            ConsoleColor.Green, false);
                         }
                         else
-                            Console.WriteLine("Вы ввели некорректное, либо отрицательное значение");
+                            StylizeMessage(() =>
+                            {
+                                Console.WriteLine("Вы ввели некорректное, либо отрицательное значение");
+                                Console.ReadKey();
+                            },
+                            ConsoleColor.Red, false);
                     }
                     break;
                 case "5":
