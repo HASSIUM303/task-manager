@@ -159,24 +159,30 @@ class ConsoleManager
                     GetDataFromDataBase();
                     break;
                 default:
-                    SetColor(() =>
+                    StylizeMessage(() =>
                     {
                         Console.Write("Вы ввели неверную команду!");
                         Console.ReadKey();
-                    });
+                    },
+                    ConsoleColor.Red, false);
                     break;
             }
 
             Console.Clear();
         }
     }
-    static void SetColor(ToGraphics meth, ConsoleColor color = ConsoleColor.Red)
+    static void StylizeMessage(ToGraphics meth, ConsoleColor color, bool CursorVisible = false)
     {
+        Console.CursorVisible = CursorVisible;
         ConsoleColor defaultColor = Console.ForegroundColor;
-
         Console.ForegroundColor = color;
         meth();
         Console.ForegroundColor = defaultColor;
+    }
+    static void StylizeMessage(ToGraphics meth, ConsoleColor color, bool CursorVisible = false, int x = 0, int y = 0)
+    {
+        Console.SetCursorPosition(x, y);
+        StylizeMessage(meth, color, CursorVisible);
     }
     static void GetDataFromDataBase()
     {
