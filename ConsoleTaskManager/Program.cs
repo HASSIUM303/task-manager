@@ -133,11 +133,19 @@ class ConsoleManager
                     }
                     break;
                 case "3":
-                    Console.Write(" Введите имя нового раздела: ");
-                    string name = Console.ReadLine();
+                    {
+                        Console.Write("Введите имя нового раздела: ");
+                        string name = Console.ReadLine();
 
-                    sections.Add(new Section(name));
-                    Console.WriteLine("Вы добавили новый раздел с названием \"" + name + "\"");
+                        sections.Add(new Section(name));
+
+                        StylizeMessage(() =>
+                        {
+                            Console.WriteLine("Вы успешно добавили новый раздел с названием \"" + name + "\"");
+                            Console.ReadKey();
+                        },
+                        ConsoleColor.Green, false);
+                    }
                     break;
                 case "4":
                     {
