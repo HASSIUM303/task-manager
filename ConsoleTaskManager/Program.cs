@@ -85,31 +85,52 @@ class ConsoleManager
             Console.Title = "Task Manager - " + sections[CurrentSection].Name;
 
             Console.WriteLine("1 - Добавить задачу в текущий раздел");
-            Console.WriteLine("2 - Удалить задачу в текущем разделе");
+            Console.WriteLine("2 - Удалить задачу в текущем разделе\n");
+
             Console.WriteLine("3 - Создать новый раздел");
             Console.WriteLine("4 - Удалить раздел");
-            Console.WriteLine("5 - Переключить раздел");
-            Console.WriteLine("6 - Сохранить изменения в базы данных");
-            Console.WriteLine("7 - Получить данные из базы данных");
+            Console.WriteLine("5 - Переключить раздел\n");
 
-            Console.Write(" Выбор опции: ");
+            Console.WriteLine("6 - Сохранить изменения в базы данных");
+            Console.WriteLine("7 - Получить данные из базы данных\n");
+
+            Console.Write("Выбор опции: ");
             string option = Console.ReadLine();
 
             switch (option)
             {
                 case "1":
-                    var task = CreateTask();
-                    sections[CurrentSection].section.Add(task);
-                    Console.WriteLine("В раздел " + sections[CurrentSection].Name +
-                    ", добавлена задача: " + task.GetAllInformation());
+                    {
+                        var task = CreateTask();
+                        sections[CurrentSection].section.Add(task);
+
+                        StylizeMessage(() =>
+                        {
+                            Console.WriteLine("В раздел " + sections[CurrentSection].Name +
+                            ", успешно добавлена задача " + task.Name);
+                            Console.ReadKey();
+                        },
+                        ConsoleColor.Green, false);
+                    }
                     break;
                 case "2":
-                    sections[CurrentSection].ShowAllTasks();
+                    {
+                        sections[CurrentSection].ShowAllTasks();
 
-                    Console.Write(" Выберите индекс удаляемой задачи: ");
-                    int index = int.Parse(Console.ReadLine());
+                        Console.Write("Выберите индекс удаляемой задачи: ");
+                        int index = int.Parse(Console.ReadLine());
+                        var task = sections[CurrentSection].section[index];
 
-                    sections[CurrentSection].section.RemoveAt(index);
+                        sections[CurrentSection].section.RemoveAt(index);
+
+                        if (!sections[CurrentSection].section.Contains(task))
+                            StylizeMessage(() =>
+                            {
+                                Console.WriteLine($"Задача {task.Name} успешно удалена из текущего раздела");
+                                Console.ReadKey();
+                            },
+                            ConsoleColor.Green, false);
+                    }
                     break;
                 case "3":
                     Console.Write(" Введите имя нового раздела: ");
