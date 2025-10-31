@@ -29,8 +29,7 @@ class Task
         return $"""
 
         [{(IsDone ? "X" : " ")}] - {Name}
-        Описание:"
-        {Description}
+        Описание:" {Description}
         Дата создания: {CreationDate}
         Дедлайн: {DeadLine}
         """;
@@ -69,11 +68,13 @@ class ConsoleManager
         IncludeFields = true,
         Encoder = System.Text.Encodings.Web.JavaScriptEncoder.UnsafeRelaxedJsonEscaping
     };
+
     static private int CurrentSection = 0;
     static List<Section> sections = new List<Section>() { new Section("Main") };
+
     static void Main()
     {
-        SetDataFromDataBase();
+        GetDataFromDataBase();
 
         while (true)
         {
@@ -87,7 +88,7 @@ class ConsoleManager
             Console.WriteLine("6 - Сохранить изменения в базы данных");
             Console.WriteLine("7 - Получить данные из базы данных");
 
-            Console.Write("Выбор опции: ");
+            Console.Write(" Выбор опции: ");
             string option = Console.ReadLine();
 
             switch (option)
@@ -151,7 +152,7 @@ class ConsoleManager
                     File.WriteAllText(path, json);
                     break;
                 case "7":
-                    SetDataFromDataBase();
+                    GetDataFromDataBase();
                     break;
                 default:
                     Console.WriteLine("Вы ввели неверную команду!");
@@ -160,7 +161,7 @@ class ConsoleManager
             }
         }
     }
-    static void SetDataFromDataBase()
+    static void GetDataFromDataBase()
     {
         string json = File.ReadAllText(path);
         if (json != null && json != "")
