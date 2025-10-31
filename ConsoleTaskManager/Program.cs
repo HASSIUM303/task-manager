@@ -159,7 +159,11 @@ class ConsoleManager
                     GetDataFromDataBase();
                     break;
                 default:
-                    Console.WriteLine("Вы ввели неверную команду!");
+                    SetColor(() =>
+                    {
+                        Console.Write("Вы ввели неверную команду!");
+                        Console.ReadKey();
+                    });
                     break;
             }
 
