@@ -188,9 +188,19 @@ class ConsoleManager
                         string userSection = Console.ReadLine();
 
                         if (int.TryParse(userSection, out CurrentSection) && --CurrentSection >= 0)
-                            Console.WriteLine("Вы выбрали раздел: " + sections[CurrentSection].Name);
+                            StylizeMessage(() =>
+                            {
+                                Console.WriteLine("Вы успешно выбрали раздел " + sections[CurrentSection].Name);
+                                Console.ReadKey();
+                            },
+                            ConsoleColor.Green, false);
                         else
-                            Console.WriteLine("Вы ввели некорректное, либо отрицательное значение");
+                            StylizeMessage(() =>
+                            {
+                                Console.WriteLine("Вы ввели некорректное, либо отрицательное значение");
+                                Console.ReadKey();
+                            },
+                            ConsoleColor.Red, false);
                     }
                     break;
                 case "6":
