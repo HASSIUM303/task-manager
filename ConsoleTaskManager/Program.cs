@@ -154,7 +154,7 @@ class ConsoleManager
                         Console.Write(" Выберите раздел для удаления (все задачи переместятся раздел main): ");
                         string userSection = Console.ReadLine();
 
-                        if (int.TryParse(userSection, out CurrentSection) && --CurrentSection >= 0)
+                        if (int.TryParse(userSection, out CurrentSection) && --CurrentSection >= 0 && CurrentSection >= sections.Count)
                         {
                             string sectionName = sections[CurrentSection].Name;
 
@@ -232,12 +232,12 @@ class ConsoleManager
         if (json != null && json != "")
             sections = JsonSerializer.Deserialize<List<Section>>(json, jsonOptions);
     }
-    static void ShowSections()
+    static void ShowSections(bool isIndexationFromZero = false)
     {
         Console.WriteLine(" Все разделы: ");
         for (int i = 0; i < sections.Count; i++)
         {
-            Console.WriteLine("  " + (i + 1) + " - " + sections[i].Name);
+            Console.WriteLine("  " + (i + (isIndexationFromZero ? 0 : 1)) + " - " + sections[i].Name);
         }
     }
     static Task CreateTask()
