@@ -184,7 +184,7 @@ class ConsoleManager
                     {
                         ShowSections();
 
-                        Console.Write(" Выберите раздел в который хотите перейти: ");
+                        Console.Write("Выберите раздел в который хотите перейти: ");
                         string userSection = Console.ReadLine();
 
                         if (int.TryParse(userSection, out CurrentSection) && --CurrentSection >= 0)
@@ -204,11 +204,37 @@ class ConsoleManager
                     }
                     break;
                 case "6":
-                    string json = JsonSerializer.Serialize(sections, jsonOptions);
-                    File.WriteAllText(path, json);
+                    try
+                    {
+                        string json = JsonSerializer.Serialize(sections, jsonOptions);
+                        File.WriteAllText(path, json);
+                    }
+                    catch (Exception e)
+                    {
+                        StylizeMessage(() =>
+                        {
+                            Console.WriteLine("Возникла ошибка: ");
+                            Console.WriteLine(e.GetType().Name);
+                            Console.WriteLine(e.Message);
+                        },
+                        ConsoleColor.Red, false);
+                    }
                     break;
                 case "7":
-                    GetDataFromDataBase();
+                    try
+                    {
+                        GetDataFromDataBase();
+                    }
+                    catch (Exception e)
+                    {
+                        StylizeMessage(() =>
+                        {
+                            Console.WriteLine("Возникла ошибка: ");
+                            Console.WriteLine(e.GetType().Name);
+                            Console.WriteLine(e.Message);
+                        },
+                        ConsoleColor.Red, false);
+                    }
                     break;
                 default:
                     StylizeMessage(() =>
