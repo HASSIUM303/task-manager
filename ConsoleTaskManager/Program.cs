@@ -3,79 +3,8 @@ using System.IO;
 using System.Text.Json;
 using System.Text.Json.Serialization;
 
-class Task
+partial class ConsoleManager
 {
-    public bool IsDone;
-    public string Name;
-    public string Description;
-    public DateTime CreationDate { get; private set; }
-    public DateOnly DeadLine;
-
-    public Task(string name, DateOnly deadLine, string description = "")
-    {
-        IsDone = false;
-        Name = name;
-        Description = description;
-        CreationDate = DateTime.Now;
-        DeadLine = deadLine;
-    }
-
-    public override string ToString()
-    {
-        return $" [{(IsDone ? "X" : " ")}] - {Name} ";
-    }
-    public string GetAllInformation()
-    {
-        return $"""
-
-        [{(IsDone ? "X" : " ")}] - {Name}
-        Описание:" {Description}
-        Дата создания: {CreationDate}
-        Дедлайн: {DeadLine}
-        """;
-    }
-}
-class Section
-{
-    public string Name { get; set; }
-    public List<Task> section { get; set; } = new List<Task>();
-
-    public Section(string name, params Task[] tasks)
-    {
-        Name = name;
-        for (int i = 0; i < tasks.Length; i++)
-            section.Add(tasks[i]);
-    }
-
-    [JsonConstructor]
-    public Section(string name, List<Task> section)
-    {
-        Name = name;
-        this.section = section;
-    }
-    public void ShowAllTasks()
-    {
-        Console.WriteLine("Все задачи раздела " + Name + ": ");
-        for (int i = 0; i < section.Count; i++) Console.WriteLine(i + " - " + section[i]);
-    }
-}
-
-
-delegate void ToGraphics();
-
-class ConsoleManager
-{
-    static private string path = "DataBase.json";
-    static private JsonSerializerOptions jsonOptions = new JsonSerializerOptions
-    {
-        WriteIndented = true,
-        IncludeFields = true,
-        Encoder = System.Text.Encodings.Web.JavaScriptEncoder.UnsafeRelaxedJsonEscaping
-    };
-
-    static private int CurrentSection = 0;
-    static List<Section> sections = new List<Section>() { new Section("Main") };
-
     static void Main()
     {
         GetDataFromDataBase();
@@ -123,7 +52,7 @@ class ConsoleManager
 
                         sections[CurrentSection].section.RemoveAt(index);
 
-                        if (sections[CurrentSection].section[index].Name != taskName)
+                        if (!sections[CurrentSection].section.Exists(t => t.Name == taskName))
                             StylizeMessage(() =>
                             {
                                 Console.WriteLine($"Задача {taskName} успешно удалена из текущего раздела");
@@ -248,51 +177,5 @@ class ConsoleManager
 
             Console.Clear();
         }
-    }
-    static void StylizeMessage(ToGraphics meth, ConsoleColor color, bool CursorVisible = false)
-    {
-        Console.CursorVisible = CursorVisible;
-        ConsoleColor defaultColor = Console.ForegroundColor;
-        Console.ForegroundColor = color;
-        meth();
-        Console.ForegroundColor = defaultColor;
-    }
-    static void StylizeMessage(ToGraphics meth, ConsoleColor color, bool CursorVisible = false, int x = 0, int y = 0)
-    {
-        Console.SetCursorPosition(x, y);
-        StylizeMessage(meth, color, CursorVisible);
-    }
-    static void GetDataFromDataBase()
-    {
-        string json = File.ReadAllText(path);
-        if (json != null && json != "")
-            sections = JsonSerializer.Deserialize<List<Section>>(json, jsonOptions);
-    }
-    static void ShowSections(bool isIndexationFromZero = false)
-    {
-        Console.WriteLine(" Все разделы: ");
-        for (int i = 0; i < sections.Count; i++)
-        {
-            Console.WriteLine("  " + (i + (isIndexationFromZero ? 0 : 1)) + " - " + sections[i].Name);
-        }
-    }
-    static Task CreateTask()
-    {
-        Console.Write(" Введите имя задачи: ");
-        string name = Console.ReadLine();
-        Console.Write(" Введите описание (если не описания нет, то нажмите Enter): ");
-        string description = Console.ReadLine();
-
-        Console.WriteLine(" Введите дедлайн: ");
-        Console.Write("  Введите год: ");
-        int year = int.Parse(Console.ReadLine());
-        Console.Write("  Введите номер месяца: ");
-        int month = int.Parse(Console.ReadLine());
-        Console.Write("  Введите день: ");
-        int day = int.Parse(Console.ReadLine());
-
-        var date = new DateOnly(year, month, day);
-
-        return new Task(name, date, description);
     }
 }
