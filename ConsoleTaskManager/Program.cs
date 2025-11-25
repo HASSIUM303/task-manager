@@ -2,12 +2,27 @@
 using System.IO;
 using System.Text.Json;
 using System.Text.Json.Serialization;
+using System.Collections.Generic;
 
 partial class ConsoleManager
 {
     static void Main()
     {
-        GetDataFromDataBase();
+        try
+        {
+            GetDataFromDataBase();
+        }
+        catch (FileNotFoundException) { }
+        catch (Exception e)
+        {
+            StylizeMessage(() =>
+            {
+                Console.WriteLine("Возникла ошибка при загрузке данных: ");
+                Console.WriteLine(e.Message);
+                Console.ReadKey();
+            },
+            ConsoleColor.Red, false);
+        }
 
         while (true)
         {
@@ -83,14 +98,25 @@ partial class ConsoleManager
                         Console.Write(" Выберите раздел для удаления (все задачи переместятся раздел main): ");
                         string userSection = Console.ReadLine();
 
-                        if (int.TryParse(userSection, out CurrentSection) && --CurrentSection >= 0 && CurrentSection >= sections.Count)
+                        if (int.TryParse(userSection, out int sectionIndex) && --sectionIndex >= 0 && sectionIndex < sections.Count)
                         {
-                            string sectionName = sections[CurrentSection].Name;
+                            if (sectionIndex == 0)
+                            {
+                                StylizeMessage(() =>
+                                {
+                                    Console.WriteLine("Нельзя удалить основной раздел 'Main'.");
+                                    Console.ReadKey();
+                                },
+                                ConsoleColor.Red, false);
+                                break;
+                            }
 
-                            for (int i = 0; i < sections[CurrentSection].section.Count; i++)
-                                sections[0].section.Add(sections[CurrentSection].section[i]);
+                            string sectionName = sections[sectionIndex].Name;
 
-                            sections.RemoveAt(CurrentSection);
+                            for (int i = 0; i < sections[sectionIndex].section.Count; i++)
+                                sections[0].section.Add(sections[sectionIndex].section[i]);
+
+                            sections.RemoveAt(sectionIndex);
                             CurrentSection = 0;
 
                             StylizeMessage(() =>
@@ -116,13 +142,16 @@ partial class ConsoleManager
                         Console.Write("Выберите раздел в который хотите перейти: ");
                         string userSection = Console.ReadLine();
 
-                        if (int.TryParse(userSection, out CurrentSection) && --CurrentSection >= 0)
+                        if (int.TryParse(userSection, out int sectionIndex) && --sectionIndex >= 0 && sectionIndex < sections.Count)
+                        {
+                            CurrentSection = sectionIndex;
                             StylizeMessage(() =>
                             {
                                 Console.WriteLine("Вы успешно выбрали раздел " + sections[CurrentSection].Name);
                                 Console.ReadKey();
                             },
                             ConsoleColor.Green, false);
+                        }
                         else
                             StylizeMessage(() =>
                             {
