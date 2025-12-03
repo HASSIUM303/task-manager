@@ -164,6 +164,7 @@ partial class ConsoleManager
                             },
                             ConsoleColor.Red, false);
                     }
+                    break;
                 case "6":
                     break;
                 case "7":
