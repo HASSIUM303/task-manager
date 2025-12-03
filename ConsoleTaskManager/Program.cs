@@ -39,8 +39,8 @@ partial class ConsoleManager
             Console.WriteLine("7 - Редактировать задачу");
             Console.WriteLine("8 - Поиск задачи\n");
 
-            Console.WriteLine("6 - Сохранить изменения в базы данных");
-            Console.WriteLine("7 - Получить данные из базы данных\n");
+            Console.WriteLine("9 - Сохранить изменения в базы данных");
+            Console.WriteLine("10 - Получить данные из базы данных\n");
 
             Console.Write("Выбор опции: ");
             string option = Console.ReadLine();
@@ -165,7 +165,7 @@ partial class ConsoleManager
                             ConsoleColor.Red, false);
                     }
                     break;
-                case "6":
+                case "9":
                     try
                     {
                         string json = JsonSerializer.Serialize(sections, jsonOptions);
@@ -182,7 +182,7 @@ partial class ConsoleManager
                         ConsoleColor.Red, false);
                     }
                     break;
-                case "7":
+                case "10":
                     try
                     {
                         GetDataFromDataBase();
