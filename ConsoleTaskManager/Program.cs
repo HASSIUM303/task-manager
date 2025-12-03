@@ -35,6 +35,10 @@ partial class ConsoleManager
             Console.WriteLine("4 - Удалить раздел");
             Console.WriteLine("5 - Переключить раздел\n");
 
+            Console.WriteLine("6 - Показать все задачи с разделами"); //TODO:
+            Console.WriteLine("7 - Редактировать задачу");
+            Console.WriteLine("8 - Поиск задачи\n");
+
             Console.WriteLine("6 - Сохранить изменения в базы данных");
             Console.WriteLine("7 - Получить данные из базы данных\n");
 
