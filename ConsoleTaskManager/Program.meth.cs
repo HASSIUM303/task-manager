@@ -47,6 +47,16 @@ partial class ConsoleManager
             Console.WriteLine("  " + (i + (isIndexationFromZero ? 0 : 1)) + " - " + sections[i].Name);
         }
     }
+
+    static void ShowAllSectionsWithTasks()
+    {
+        Console.WriteLine(" Все раздели и задачи: \n");
+        for (int i = 0; i < sections.Count; i++)
+        {
+            Console.WriteLine(" " + sections[i].Name + ": ");
+            sections[i].ShowAllTasks();
+        }
+    }
     static Task CreateTask()
     {
         Console.Write(" Введите имя задачи: ");

@@ -213,7 +213,6 @@ partial class ConsoleManager
                     ConsoleColor.Red, false);
                     break;
             }
-
             Console.Clear();
         }
     }
