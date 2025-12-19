@@ -35,7 +35,7 @@ partial class ConsoleManager
             Console.WriteLine("4 - Удалить раздел");
             Console.WriteLine("5 - Переключить раздел\n");
 
-            Console.WriteLine("6 - Показать все задачи с разделами"); //TODO:
+            Console.WriteLine("6 - Показать все задачи с разделами"); //TODO: доделать
             Console.WriteLine("7 - Редактировать задачу");
             Console.WriteLine("8 - Поиск задачи\n");
 
@@ -166,6 +166,11 @@ partial class ConsoleManager
                     }
                     break;
                 case "6":
+                    StylizeMessage(() => //TODO: исправить баг, при котором в списке задач уже присутствует лишнее задача, я бещ понятия откуда она
+                    {
+                        ShowAllSectionsWithTasks();
+                        Console.ReadKey();
+                    }, Console.ForegroundColor, false);
                     break;
                 case "7":
                     break;
