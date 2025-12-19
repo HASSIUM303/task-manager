@@ -35,8 +35,12 @@ partial class ConsoleManager
             Console.WriteLine("4 - Удалить раздел");
             Console.WriteLine("5 - Переключить раздел\n");
 
-            Console.WriteLine("6 - Сохранить изменения в базы данных");
-            Console.WriteLine("7 - Получить данные из базы данных\n");
+            Console.WriteLine("6 - Показать все задачи с разделами"); //TODO: доделать
+            Console.WriteLine("7 - Редактировать задачу");
+            Console.WriteLine("8 - Поиск задачи\n");
+
+            Console.WriteLine("9 - Сохранить изменения в базы данных");
+            Console.WriteLine("10 - Получить данные из базы данных\n");
 
             Console.Write("Выбор опции: ");
             string option = Console.ReadLine();
@@ -162,6 +166,17 @@ partial class ConsoleManager
                     }
                     break;
                 case "6":
+                    StylizeMessage(() => //TODO: исправить баг, при котором в списке задач уже присутствует лишнее задача, я бещ понятия откуда она
+                    {
+                        ShowAllSectionsWithTasks();
+                        Console.ReadKey();
+                    }, Console.ForegroundColor, false);
+                    break;
+                case "7": //Написать логику
+                    break;
+                case "8": //Написать логику
+                    break;
+                case "9":
                     try
                     {
                         string json = JsonSerializer.Serialize(sections, jsonOptions);
@@ -178,7 +193,7 @@ partial class ConsoleManager
                         ConsoleColor.Red, false);
                     }
                     break;
-                case "7":
+                case "10":
                     try
                     {
                         GetDataFromDataBase();
@@ -203,7 +218,6 @@ partial class ConsoleManager
                     ConsoleColor.Red, false);
                     break;
             }
-
             Console.Clear();
         }
     }
