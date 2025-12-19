@@ -91,6 +91,7 @@ partial class ConsoleManager //Не менять саму логику мето�
         }
 
         sections[CurrentSection].ShowAllTasks();
+        Console.WriteLine();
 
         Console.Write("Выберите индекс задачи для редактирования: ");
         if (!int.TryParse(Console.ReadLine(), out int index) || index < 0 || index >= sections[CurrentSection].section.Count)
@@ -107,17 +108,19 @@ partial class ConsoleManager //Не менять саму логику мето�
         Task task = sections[CurrentSection].section[index];
 
         Console.WriteLine($"Текущая задача: {task.GetAllInformation()}");
-        Console.WriteLine("Что вы хотите изменить?");
-        Console.WriteLine("1 - Название задачи");
-        Console.WriteLine("2 - Описание задачи");
-        Console.WriteLine("3 - Дедлайн задачи");
-        Console.WriteLine("4 - Статус задачи (выполнено/не выполнено)");
-        Console.WriteLine("5 - Все параметры задачи");
-        Console.WriteLine("6 - Выход из редактора");
+        Console.WriteLine(" Что вы хотите изменить?");
+        Console.WriteLine(" 1 - Название задачи");
+        Console.WriteLine(" 2 - Описание задачи");
+        Console.WriteLine(" 3 - Дедлайн задачи");
+        Console.WriteLine(" 4 - Статус задачи (выполнено/не выполнено)");
+        Console.WriteLine(" 5 - Все параметры задачи");
+        Console.WriteLine(" 6 - Выход из редактора");
         Console.Write("Выберите опцию: ");
 
         string option = Console.ReadLine();
 
+        Console.WriteLine();
+        
         switch (option)
         {
             case "1":
