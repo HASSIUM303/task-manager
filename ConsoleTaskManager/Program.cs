@@ -173,6 +173,7 @@ partial class ConsoleManager
                     }, Console.ForegroundColor, false);
                     break;
                 case "7": //Написать логику
+                    EditTask();
                     break;
                 case "8": //Написать логику
                     break;

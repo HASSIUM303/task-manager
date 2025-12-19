@@ -77,4 +77,86 @@ partial class ConsoleManager //Не менять саму логику мето�
 
         return new Task(name, date, description);
     }
+
+    static void EditTask()
+    {
+        if (sections[CurrentSection].section.Count == 0)
+        {
+            StylizeMessage(() =>
+            {
+                Console.WriteLine($"В разделе {sections[CurrentSection].Name} нет задач для редактирования.");
+                Console.ReadKey();
+            }, ConsoleColor.Yellow, false);
+            return;
+        }
+
+        sections[CurrentSection].ShowAllTasks();
+
+        Console.Write("Выберите индекс задачи для редактирования: ");
+        if (!int.TryParse(Console.ReadLine(), out int index) || index < 0 || index >= sections[CurrentSection].section.Count)
+        {
+            StylizeMessage(() =>
+            {
+                Console.WriteLine("Вы ввели некорректное значение индекса.");
+                Console.ReadKey();
+            }, ConsoleColor.Red, false);
+            return;
+        }
+
+        Task task = sections[CurrentSection].section[index];
+
+        Console.WriteLine($"Текущая задача: {task.GetAllInformation()}");
+        Console.WriteLine("Что вы хотите изменить?");
+        Console.WriteLine("1 - Название задачи");
+        Console.WriteLine("2 - Описание задачи");
+        Console.WriteLine("3 - Дедлайн задачи");
+        Console.WriteLine("4 - Статус задачи (выполнено/не выполнено)");
+        Console.WriteLine("5 - Все параметры задачи");
+        Console.Write("Выберите опцию: ");
+
+        string option = Console.ReadLine();
+
+        switch (option)
+        {
+            case "1":
+                Console.Write("Введите новое название задачи: ");
+                task.Name = Console.ReadLine();
+                break;
+            case "2":
+                Console.Write("Введите новое описание задачи (если нет описания, то нажмите Enter): ");
+                task.Description = Console.ReadLine();
+                break;
+            case "3":
+                Console.WriteLine("Введите новый дедлайн: ");
+                Console.Write(" Введите год: ");
+                int year = int.Parse(Console.ReadLine());
+                Console.Write(" Введите номер месяца: ");
+                int month = int.Parse(Console.ReadLine());
+                Console.Write(" Введите день: ");
+                int day = int.Parse(Console.ReadLine());
+
+                task.DeadLine = new DateOnly(year, month, day);
+                break;
+            case "4":
+                task.IsDone = !task.IsDone;
+                break;
+            case "5":
+                var newTask = CreateTask();
+                sections[CurrentSection].section[index] = newTask;
+                break;
+            default:
+                StylizeMessage(() =>
+                {
+                    Console.WriteLine("Некорректный выбор.");
+                    Console.ReadKey();
+                }, ConsoleColor.Red, false);
+                return;
+        }
+
+        StylizeMessage(() =>
+        {
+            Console.WriteLine($"Задача {task.Name} успешно отредактирована.");
+            Console.ReadKey();
+        }, ConsoleColor.Green, false);
+    }
 }
