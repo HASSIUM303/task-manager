@@ -176,6 +176,7 @@ partial class ConsoleManager
                     EditTask();
                     break;
                 case "8": //Написать логику
+                    SearchTask();
                     break;
                 case "9":
                     try

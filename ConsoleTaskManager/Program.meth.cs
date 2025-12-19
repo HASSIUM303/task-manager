@@ -159,4 +159,65 @@ partial class ConsoleManager //Не менять саму логику мето�
             Console.ReadKey();
         }, ConsoleColor.Green, false);
     }
+
+    static void SearchTask()
+    {
+        Console.Write("Введите текст для поиска задачи: ");
+        string searchText = Console.ReadLine()?.ToLower();
+
+        if (string.IsNullOrEmpty(searchText))
+        {
+            StylizeMessage(() =>
+            {
+                Console.WriteLine("Текст для поиска не может быть пустым.");
+                Console.ReadKey();
+            }, ConsoleColor.Red, false);
+            return;
+        }
+
+        bool found = false;
+        Console.WriteLine($"Результаты поиска по запросу \"{searchText}\":\n");
+
+        for (int i = 0; i < sections.Count; i++)
+        {
+            List<Task> matchingTasks = new List<Task>();
+
+            for (int j = 0; j < sections[i].section.Count; j++)
+            {
+                Task task = sections[i].section[j];
+                if (task.Name.ToLower().Contains(searchText) ||
+                    task.Description.ToLower().Contains(searchText))
+                {
+                    matchingTasks.Add(task);
+                }
+            }
+
+            if (matchingTasks.Count > 0)
+            {
+                found = true;
+                Console.WriteLine($"Найдено в разделе '{sections[i].Name}':");
+
+                for (int k = 0; k < matchingTasks.Count; k++)
+                {
+                    int taskIndex = sections[i].section.IndexOf(matchingTasks[k]);
+                    Console.WriteLine($"  {taskIndex} - {matchingTasks[k]}");
+                }
+                Console.WriteLine(); // Пустая строка для разделения результатов
+            }
+        }
+
+        if (!found)
+        {
+            StylizeMessage(() =>
+            {
+                Console.WriteLine($"Задачи, содержащие \"{searchText}\", не найдены.");
+                Console.ReadKey();
+            }, ConsoleColor.Yellow, false);
+        }
+        else
+        {
+            Console.WriteLine("Поиск завершен.");
+            Console.ReadKey();
+        }
+    }
 }
