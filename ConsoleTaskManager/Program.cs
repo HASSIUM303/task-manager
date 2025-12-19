@@ -172,9 +172,9 @@ partial class ConsoleManager
                         Console.ReadKey();
                     }, Console.ForegroundColor, false);
                     break;
-                case "7":
+                case "7": //Написать логику
                     break;
-                case "8":
+                case "8": //Написать логику
                     break;
                 case "9":
                     try
