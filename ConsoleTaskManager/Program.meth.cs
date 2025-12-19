@@ -115,12 +115,12 @@ partial class ConsoleManager //Не менять саму логику мето�
         Console.WriteLine(" 4 - Статус задачи (выполнено/не выполнено)");
         Console.WriteLine(" 5 - Все параметры задачи");
         Console.WriteLine(" 6 - Выход из редактора");
-        Console.Write("Выберите опцию: ");
 
+        Console.Write("Выберите опцию: ");
         string option = Console.ReadLine();
 
         Console.WriteLine();
-        
+
         switch (option)
         {
             case "1":
@@ -203,8 +203,7 @@ partial class ConsoleManager //Не менять саму логику мето�
             for (int j = 0; j < sections[i].section.Count; j++)
             {
                 Task task = sections[i].section[j];
-                if (task.Name.ToLower().Contains(searchText) ||
-                    task.Description.ToLower().Contains(searchText))
+                if (task.Name.ToLower().Contains(searchText) || task.Description.ToLower().Contains(searchText))
                 {
                     matchingTasks.Add(task);
                 }
@@ -213,14 +212,14 @@ partial class ConsoleManager //Не менять саму логику мето�
             if (matchingTasks.Count > 0)
             {
                 found = true;
-                Console.WriteLine($"Найдено в разделе '{sections[i].Name}':");
+                Console.WriteLine($" Найдено в разделе '{sections[i].Name}':");
 
                 for (int k = 0; k < matchingTasks.Count; k++)
                 {
                     int taskIndex = sections[i].section.IndexOf(matchingTasks[k]);
                     Console.WriteLine($"  {taskIndex} - {matchingTasks[k]}");
                 }
-                Console.WriteLine(); // Пустая строка для разделения результатов
+                Console.WriteLine();
             }
         }
 
