@@ -23,11 +23,15 @@ partial class ConsoleManager //Не менять саму логику мето�
 
     static void StylizeMessage(ToGraphics meth, ConsoleColor color, bool CursorVisible = false)
     {
+        bool defaultVisible = Console.CursorVisible;
         Console.CursorVisible = CursorVisible;
+
         ConsoleColor defaultColor = Console.ForegroundColor;
         Console.ForegroundColor = color;
         meth();
         Console.ForegroundColor = defaultColor;
+
+        Console.CursorVisible = defaultVisible;
     }
     static void StylizeMessage(ToGraphics meth, ConsoleColor color, bool CursorVisible = false, int x = 0, int y = 0)
     {
