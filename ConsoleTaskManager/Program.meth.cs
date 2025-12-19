@@ -6,7 +6,8 @@ using System.Collections.Generic;
 
 delegate void ToGraphics();
 
-partial class ConsoleManager
+partial class ConsoleManager //Не менять саму логику методов, а только исправлять баги.
+                            //Менять логику только в том случаи, если это единственный способ исправить баг
 {
     static private string path = "DataBase.json";
     static private JsonSerializerOptions jsonOptions = new JsonSerializerOptions

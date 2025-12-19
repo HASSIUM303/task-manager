@@ -6,7 +6,7 @@ using System.Collections.Generic;
 
 partial class ConsoleManager
 {
-    static void Main()
+    static void Main() //TODO: по возможности исправь баги
     {
         try
         {
