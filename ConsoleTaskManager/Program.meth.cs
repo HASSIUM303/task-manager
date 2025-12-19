@@ -103,6 +103,7 @@ partial class ConsoleManager //Не менять саму логику мето�
             return;
         }
 
+        lable:
         Task task = sections[CurrentSection].section[index];
 
         Console.WriteLine($"Текущая задача: {task.GetAllInformation()}");
@@ -112,6 +113,7 @@ partial class ConsoleManager //Не менять саму логику мето�
         Console.WriteLine("3 - Дедлайн задачи");
         Console.WriteLine("4 - Статус задачи (выполнено/не выполнено)");
         Console.WriteLine("5 - Все параметры задачи");
+        Console.WriteLine("6 - Выход из редактора");
         Console.Write("Выберите опцию: ");
 
         string option = Console.ReadLine();
@@ -127,15 +129,27 @@ partial class ConsoleManager //Не менять саму логику мето�
                 task.Description = Console.ReadLine();
                 break;
             case "3":
-                Console.WriteLine("Введите новый дедлайн: ");
-                Console.Write(" Введите год: ");
-                int year = int.Parse(Console.ReadLine());
-                Console.Write(" Введите номер месяца: ");
-                int month = int.Parse(Console.ReadLine());
-                Console.Write(" Введите день: ");
-                int day = int.Parse(Console.ReadLine());
+                try
+                {
+                    Console.WriteLine("Введите новый дедлайн: ");
+                    Console.Write(" Введите год: ");
+                    int year = int.Parse(Console.ReadLine());
+                    Console.Write(" Введите номер месяца: ");
+                    int month = int.Parse(Console.ReadLine());
+                    Console.Write(" Введите день: ");
+                    int day = int.Parse(Console.ReadLine());
 
-                task.DeadLine = new DateOnly(year, month, day);
+                    task.DeadLine = new DateOnly(year, month, day);
+                }
+                catch (Exception e)
+                {
+                    StylizeMessage(() =>
+                    {
+                        Console.WriteLine($"Возникла ошибка \'{e.GetType().Name}\': {e}");
+                        Console.ReadKey();
+                    }, ConsoleColor.Red, false);
+                    goto lable;
+                }
                 break;
             case "4":
                 task.IsDone = !task.IsDone;
@@ -144,13 +158,14 @@ partial class ConsoleManager //Не менять саму логику мето�
                 var newTask = CreateTask();
                 sections[CurrentSection].section[index] = newTask;
                 break;
+                case "7": return;
             default:
                 StylizeMessage(() =>
                 {
                     Console.WriteLine("Некорректный выбор.");
                     Console.ReadKey();
-                }, ConsoleColor.Red, false);
-                return;
+                }, ConsoleColor.Yellow, false);
+                goto lable;
         }
 
         StylizeMessage(() =>
