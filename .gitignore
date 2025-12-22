@@ -8,4 +8,5 @@
 !/ConsoleTaskManager/ConsoleTaskManager.csproj
 # !/ConsoleTaskManager/DataBase.json
 !ConsoleTaskManager.sln
+!README.md
 !.gitignore
